@@ -20,3 +20,12 @@ There are three ways for the threads to get terminated:
 1. The function which the thread runs returns a value
 2. The thread executes ```pthread_exit(0)```
 3. Another thread kills the running thread.
+
+Multiple threads of the processes share same Virtual Address Space of a process. In other words, resources allocated by one 
+thread is visible to the rest of the others. These resources are Heap Memory, Sockets, File Descriptors, global variables etc.
+What threads do not share is the stack memory. In essence, every thread has its own stack memory.
+
+When it comes to scheduling, OS do not schedule processes, but it schedules threads. However, this rule is violated in certain
+error conditions:
+1. If a thread generates segmentation fault, the entire process is terminated (including all threads)
+2. A signal from hardware or kernel space is delivered to the correspnding process, but not the thread.
