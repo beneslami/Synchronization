@@ -29,3 +29,10 @@ When it comes to scheduling, OS do not schedule processes, but it schedules thre
 error conditions:
 1. If a thread generates segmentation fault, the entire process is terminated (including all threads)
 2. A signal from hardware or kernel space is delivered to the correspnding process, but not the thread.
+
+When a thread is created, it can be in one of the two modes:
+1. Joinable thread: A thread is joinable when that thread joins the parent thread when it finishes its working. Note that, 
+```pthread_join()``` should be added in the main thread so that the main thread gets blocked in this point til the child thread
+finishes its working. After the child thread finishes its working, it sends a join signal to the parent thread so that the parent
+thread gets released. By default, all created threads are joinable.
+2. Detached thread: it is the opposite of joinable thread.
