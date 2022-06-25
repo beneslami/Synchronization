@@ -36,3 +36,29 @@ When a thread is created, it can be in one of the two modes:
 finishes its working. After the child thread finishes its working, it sends a join signal to the parent thread so that the parent
 thread gets released. By default, all created threads are joinable.
 2. Detached thread: it is the opposite of joinable thread.
+
+One thing to note here is that a child joinable thread upon termination joins all the threads which are blocked on pthread_join on 
+former's thread handle.
+
+-Create a thread Tas joinable when:
+1. T is supposed to return some results to other threads like Map-Reduce 
+2. When some threads are interested in being notified of other thread's termination
+
+-Create thread T as detached when:
+1. No return result from T is expected
+2. Nobody bothers about its death
+3. T runs in infinite loop
+   1. waiting for user input
+   2. waiting for network packet
+
+**Transfer of Computation**: This concept is among threads that belongs to one virutal address space of a process. Suppose 
+there are two entities in a process which represents threads. Entity one has two values and entity two has the formula to compute
+the with the values which are in entity one. Instead of sending values from entity one to entity two, entity two sends the formula
+to entity one.
+
+![diagrarm](pics/cmp.png)
+
+Transfer of computation is nothing more than function call through function pointer. this is the pattern of communication 
+which is based on Transfer Of Communication (TOC). The thread which generates the data is called **publisher** and the thread
+which owns the data processing function is called **Subscriber**. The activity of TOC is called **Callback Registration**. The
+activity of invoking the function through functin pointers by publisher is called **Notification**. 
