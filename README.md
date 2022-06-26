@@ -62,3 +62,17 @@ Transfer of computation is nothing more than function call through function poin
 which is based on Transfer Of Communication (TOC). The thread which generates the data is called **publisher** and the thread
 which owns the data processing function is called **Subscriber**. The activity of TOC is called **Callback Registration**. The
 activity of invoking the function through functin pointers by publisher is called **Notification**. 
+
+**Notification Chains** is an architectural concept used to notify multiple subscribers interested in a particular event. A party
+which generates an event is called **Publisher** and parties which are interested in being notified of the event are called
+**Subscriber**. So, in essence, there is one publisher and multiple subscribers. 
+
+**Thread Cancellation** refers to cancelling a thread while it is working. Any thread can cancel the operation of other threads by
+calling ```thread_cancel()``` API. Threads can be canceled in two ways: Asynchronous or Deferred. In Asynchronous mode, a thread
+which wants to cancel the operation of the other thread, sends a cancel request to the victim thread. At this point of time, the
+OS will queue this request and after a while the OS cancels the victim thread. This is why it is called Asynchronous. However,
+asynchronous cancellation of a thread may cause three below problems:
+1. Resource leaking: there may be some variable on heap memory that are not get freed after cancelling the operation of the victim 
+thread.
+2. Cause invariant or data structure corruption
+3. Deadlocks
