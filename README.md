@@ -76,3 +76,24 @@ asynchronous cancellation of a thread may cause three below problems:
 thread.
 2. Cause invariant or data structure corruption
 3. Deadlocks
+
+In deferred cancellation, it allows the programmer to control as to which points in the execution flow of the thread, the thread is 
+allowed to cancel. Deferred cancellation is used to handle the problem of invariants. It is the responsibility of the programmer to choose
+cancellation point wisely such that when the thread is cancelled at the cancellation point, there will be no variants/leak/deadlock.
+The API for this type of cancellation is ```pthread_testcancel()```.
+
+**Condition Variable** is another important concept coming after Mutual Exclusion. Basically, condition variable makes the thread
+to wait for a condition to happen, and before happening the condition, the thread gets blocked. Two important terminology in this 
+concept is ```wait``` and ```signal```. Wait makes the thread to get blocked while signal which is issued by another thread, making
+the blocked thread to run.
+
+Based on below picture, the left hand side code is thread T1 and the right one is thread T2. When thread T1 invokes ```pthread_cond_wait``` 
+two things happen: First, the thread gets blocked, and second, Mutex ownership is snatched from calling thread and is declared available.
+When blocked thread receive signal, it first slips into ready to execute state and wait for mutex release, then it is given a lock
+on mutex as soon as mutex is released by signalling thread, and finally the thread resumes execution.
+
+![diagram](pics/cv.png)
+
+One famous problems which the condition variable is the solution of that is producer-consumer problem. the consumer checks if 
+the queue is not empty (**predicate**), otherwise, it waits for the signal of the consumer. A phenomenon which is called Spurious
+wake up usually happens when we have multiple consumer and one producer. 
