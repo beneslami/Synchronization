@@ -96,4 +96,17 @@ on mutex as soon as mutex is released by signalling thread, and finally the thre
 
 One famous problems which the condition variable is the solution of that is producer-consumer problem. the consumer checks if 
 the queue is not empty (**predicate**), otherwise, it waits for the signal of the consumer. A phenomenon which is called Spurious
-wake up usually happens when we have multiple consumer and one producer. 
+wake up usually happens when we have multiple consumer and one producer.
+
+**Thread Barrier** is a thread synchronization data structure which blocks all threads at a particular line of code until some
+specified number of threads arrives at the barrier point. Suppose thread barrier is defined with n number of threads, it means that
+for n-1 number of threads coming to the barrier point, they all get blocked and for n-th thread, all n threads get released and 
+continue their tasks. At this point it is called that the threads are **disposed**. POSIX API proved in built support to work with
+thread barriers (```pthread_brrier_t```). Thread barrier works on the cnocept of relay. A signaled thread, signaling the other blocked
+thread to resume, creating a chain of signals.
+
+![diagram](pics/barrier.png)
+
+**Semaphore** is another important concept in thread synchronization. Semaphore is the extended version of mutex. In essence, semaphores
+allow multiple threads to enter critical sections while in mutex only one thread at a time is allowed to enter, therefore, Mutex is called
+**Binary Semaphore**. The only difference is that the semaphore can be unblocked by a different thread.
